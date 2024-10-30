@@ -1,0 +1,371 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f9;
+  color: #2c3e50;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  display: flex; /* Allow sidebar and main content to be side-by-side */
+  max-width: 900px; /* Set a maximum width for responsiveness */
+  margin: 40px auto; /* Center the container horizontally */
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  border-radius: 8px; /* Rounded corners for a polished look */
+  overflow: hidden; /* Prevent content overflow outside the container */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px; /* Consistent sidebar width */
+  background-color: #3a3937; /* Darker background for contrast */
+  padding: 30px;
+  color: #fff; /* White text for readability */
+}
+
+.sidebar img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin: 0 auto; /* Center the profile picture horizontally */
+}
+
+.sidebar h1 {
+  font-size: 1.5em; /* Larger heading for name */
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sidebar p {
+  text-align: center;
+  margin: 5px 0;
+}
+
+.sidebar .contact-info p {
+  margin: 10px 0; /* Increase spacing for contact details */
+  font-weight: 500; /* Slightly bolder font for emphasis */
+}
+
+/* Main Content */
+.main-content {
+  flex: 1; /* Take up remaining space in container */
+  padding: 40px;
+}
+
+/* Headings */
+h2 {
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  color: #2980b9; /* Brand color for headings */
+  border-bottom: 2px solid #2980b9;
+  padding-bottom: 10px;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 40px; /* Consistent spacing between sections */
+}
+
+.section div {
+  padding: 20px; /* Consistent padding for section content */
+  background-color: #ecf0f1; /* Light background for readability */
+  border-radius: 5px; /* Rounded corners for a clean look */
+}
+
+.section div:hover {
+  background-color: #dfe6e9; /* Slight hover effect for interactivity */
+}
+
+/* Lists */
+.skills-list, .referees-list, .experience-list, .education-list {
+  display: grid; /* Use grid layout for responsive and consistent alignment */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Flexible columns with minimum width */
+  gap: 15px; /* Spacing between list items */
+}
+
+/* Media Queries (Responsive Adjustments) */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Stack sidebar and main content for smaller screens */
+  }
+
+  .sidebar {
+    width: 100%; /* Full width sidebar on small screens */
+  }
+}
+
+/* Additional Considerations for PDF Formatting */
+
+/* Page Size and Margins (Optional) */
+@page {
+  size: A4; /* Set the PDF page size (consider A4 for international compatibility) */
+  margin: 2cm; /* Set margins for content spacing within the PDF */
+}
+
+/* Orphan/Widow Prevention (Optional) */
+p {
+  page-break-before: avoid; /* Avoid breaking paragraphs across pages */
+  page-break-after: avoid;
+}
+
+/* Ensure proper alignment for PDF export */
+@media print {
+  /* Adjust font sizes and spacing as needed for PDF layout */
+  body {
+    font-size: 12pt; /* Adjust font size as desired */
+  }
+
+  .container {
+    max-width: 800px; /* Reduce max-width for better PDF layout */
+  }
+
+  .sidebar {
+    width: 250px; /* Reduce sidebar width for PDF */
+  }
+
+  /* Add more specific CSS rules for PDF alignment as needed */
+}
+.sl {
+    margin-bottom: 20px; /* Space below the select element */
+}
+
+#template {
+    width: 100%; /* Make the dropdown full width */
+    padding: 10px; /* Padding inside the dropdown */
+    border: 1px solid #bdc3c7; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #34495e; /* Dark text color */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+#template:hover {
+    border-color: #2980b9; /* Change border color on hover */
+}
+
+#template:focus {
+    outline: none; /* Remove default outline */
+    border-color: #2980b9; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5); /* Add a shadow on focus */
+}
+
+.option {
+    padding: 10px; /* Padding for the options */
+}
+.btn {
+    display: inline-block; /* Make the button inline */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline for links */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.btn-warning {
+    background-color: #f39c12; /* Warning color */
+    color: #fff; /* Text color */
+}
+
+.btn-warning:hover {
+    background-color: #e67e22; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-warning:active {
+    background-color: #d35400; /* Even darker shade on click */
+    transform: translateY(0); /* Reset lift effect */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="sl">
+        <select id="template" style="text-align: center;background-color: #353535;color: #dfe6e9;" name="template" onchange="changeTemplate()">
+            <option value="template1">Choose Your Template </option>
+            <option value="template1">Standard</option>
+            <option value="template2">Blue&White</option>
+            <option value="template3">Professional</option>
+            <option value="template4">NoImage</option>
+            <option value="template5">HalfGrey</option>
+            <!-- Add more templates as needed -->
+        </select>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div>
+                {% if user_profile %}
+    <div class="header">
+        {% if user_profile.avator %}
+            <img src="{{ user_profile.avator.url }}" alt="Profile Picture">
+        {% else %}
+            <img src="{% static 'img/avator.png' %}" alt="Profile Picture">
+        {% endif %}
+        <div>
+            <h1>{{ user_profile.fname }} {{ user_profile.mname }} {{ user_profile.lname }}</h1><br>
+            <p>{{ user_profile.occupation }}</p>
+            <p>📅{{ user_profile.dob}}</p>
+            <p>{{ user_profile.gender}}</p>
+            <p>{{ user_profile.country }}, {{ user_profile.region }}</p>
+            <p>{{ user_profile.email }}</p>
+            <p>{{ user_profile.phone }}</p>
+        </div>
+    </div>
+{% endif %}
+            </div>
+            <div class="contact-info">
+                <h2>Professional Skills</h2>
+                <div class="skills-list">
+                    {% if user_skill %}
+                    {% for skill in user_skill %}
+                    <div>
+                        <p><b>Skill Name:</b> {{ skill.s_name }}</p>
+                        <p><b>Skill Level:</b> {{ skill.s_level }} level</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h2>Referees</h2>
+                <div class="referees-list">
+                    {% if user_referee %}
+                    {% for referee in user_referee %}
+                    <div>
+                        <p><b>Name:</b> {{ referee.re_name }}</p>
+                        <p><b>Phone:</b> {{ referee.re_phone }}</p>
+                        <p><b>Email:</b> {{ referee.re_email }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            {% if user_profile %}
+            
+            <!-- Biography -->
+            <div class="section">
+                <h2>Biography</h2>
+                <p>{{ user_profile.bio }}</p>
+            </div>
+            
+            {% endif %}
+
+            <!-- Skills Section -->
+            <div class="section">
+                
+            </div>
+
+            <!-- Education Section -->
+            <div class="section">
+                <h2>Education</h2>
+                <div class="education-list">
+                    {% if user_education %}
+                    {% for educa in user_education %}
+                    <div>
+                        <p><b>Institution:</b> {{ educa.a_institution }}</p>
+                        <p><b>Year:</b> {{ educa.a_year }}</p>
+                        <p><b>CGPA:</b> {{ educa.a_award }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="section">
+                <h2>Experience</h2>
+                <div class="experience-list">
+                    {% if user_experience %}
+                    {% for exp in user_experience %}
+                    <div>
+                        <p><b>Company:</b> {{ exp.e_name }}</p>
+                        <p><b>Role:</b> {{ exp.e_role }}</p>
+                        <p><b>Duration:</b> {{ exp.e_duration }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Referees Section -->
+            <div class="section">
+                
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'dashboard' %}">
+      <button id="backButton" class="btn" style="position: fixed; bottom: 20px; left: 20px; border-radius: 8px; background-color: rgb(74, 160, 21); color: white;">↩</button>
+  </a>
+  <button id="downloadButton" class="btn btn-warning" style="position: fixed; bottom: 20px; right: 20px; border-radius: 8px;">Download PDF</button>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+          // Change template function
+          function changeTemplate() {
+              const selectedTemplate = document.getElementById('template').value;
+              const cvId = "{{ user_profile.cv.id }}";
+
+              if (!cvId) {
+                  alert("CV ID not found. Please select a valid profile.");
+                  return;
+              }
+
+              window.location.href = `{% url 'template_switcher' %}?template=${selectedTemplate}&id=${cvId}`;
+          }
+
+          // Attach changeTemplate to the select dropdown
+          document.getElementById('template').addEventListener('change', changeTemplate);
+
+          // PDF download button functionality
+          document.getElementById('downloadButton').addEventListener('click', async () => {
+              if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+                  alert('Required libraries are not loaded.');
+                  return;
+              }
+
+              const { jsPDF } = window.jspdf;
+              const pdf = new jsPDF('p', 'mm', 'a4');
+              const container = document.querySelector(".container");
+
+              try {
+                  const canvas = await html2canvas(container, { scale: 2 });
+                  const imgData = canvas.toDataURL('image/png');
+                  const imgWidth = pdf.internal.pageSize.getWidth() - 20;
+                  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                  pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                  pdf.save('resume.pdf');
+              } catch (error) {
+                  console.error("Error generating PDF:", error);
+                  alert("An error occurred while generating the PDF.");
+              }
+          });
+      });
+  </script>
+</body>
+</html>

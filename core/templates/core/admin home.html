@@ -1,0 +1,63 @@
+{% include 'core/adminnavbar.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%;">
+    <div class="container-fluid">
+        <h2 style="text-align: center;">Welcome to the Admin Dashboard</h2><br>
+        <div class="card mb-2 col-md-12" style="border-width: 2px; border-color: rgb(116, 114, 114); border-radius: 10px; background-image: url('/static/img/bgg1.jpg'); background-size: 865px 543px; background-repeat: no-repeat; background-position: right; height: 280px;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4" style="height: 300px;margin-top: 10px;">
+                        <p style="font-weight: 700;">VIEW USER'S FEEDBACK : 
+                        <a href="{% url 'view_feedback' %}">
+                            <button class="btn btn-warning" style="border-radius: 8px; margin-left: 20px;">FEEDBACK</button>
+                        </a></p>
+                        
+                    </div><br><br><br>
+                    
+                    <div class="col-md-4" style="height: 300px;margin-top: 100px;margin-left: -475px;">
+                        <p style="font-weight: 700;">MANAGE USERS :      
+                        <a href="{% url 'manage_users' %}">
+                            <button class="btn btn-danger" style="border-radius: 8px; margin-left: 75px;">MANAGE USERS</button>
+                        </a></p>
+                    </div>
+                    <br>
+                    <div class="col-md-4" style="height: 300px; margin-top: 190px;margin-left: -475px;">
+                        <p style="font-weight: 700;">VIEW USER'S RESUME : 
+                        <a href="{% url 'view_resumes' %}">
+                            <button class="btn btn-success" style="border-radius: 8px; margin-left: 33px;">RESUME USERS</button>
+                        </a></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <br><br><br>
+        <div class="card1">
+                <img src="/static/img/manage_users.png" class="card-img-top" alt="Manage Users" height="210px">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Users</h5>
+                    <p class="card-text">View, edit, or remove users from the system.</p>
+                </div>
+        </div>
+        
+        <div class="card2">
+            <img src="/static/img/r.avif" class="card-img-top" alt="View Reports" height="210px">
+            <div class="card-body">
+                <h5 class="card-title">View Reports</h5>
+                <p class="card-text">Analyze user activity and system performance.</p>
+            </div>
+        </div>
+        <div class="card3" style="margin-top: -300px;">
+            <img src="/static/img/settings.png" class="card-img-top" alt="Settings" style="height: 180px; width:210px">
+            <div class="card-body">
+                <h5 class="card-title">Settings</h5>
+                <p class="card-text">Configure system preferences and user roles.</p>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+   
+</div>
+<br><br>
+{% include 'core/footer.html' %}

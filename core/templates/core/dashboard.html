@@ -1,0 +1,86 @@
+
+{% include 'core/navbar.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%;">
+     <div class="container-fluid">
+       <div class="card mb-2 col-md-12" style="border-width: 2px;border-color: rgb(116, 114, 114);border-radius: 10px;background-image: url('/static/img/bgg1.jpg'); background-size: 865px 543px;background-repeat: no-repeat;background-position: right;">
+           <div class="card-body">
+               <div class="row">
+                   <div class="col-md-4">
+                       <img src="{% static 'img/img1.jpg' %}" style="padding-left: 10%; width: 400px;">
+                   </div>
+                   <div class="col-md-7" style="padding-left: 3%;">
+
+                       <h1 class="textprimary1">Resume Builder,</h1>
+                       <h2 class="textprimary2"> The Best CV Maker Online.</h2>
+                       <br>
+                       <p class="welcome_text" >If a sheet of papper represents your entire<br>
+                       work life, personality, and skills, it better be<br>
+                      a pretty amazing piece of papper --<br>
+                      Let Resume Builder do the heavy lifting.</p>
+                       <br>
+                       
+                       {% if status == 'there_is_cv' %}
+
+                        <a href="{% url 'createcv' %}">
+                            <button class="btn btn-primary" style="border-radius: 8px;">Create Cv</button>
+                        </a>
+                        <a href="{% url 'cv-edit' %}">
+                            <button class="btn btn-success" style="border-radius: 8px;">Edit Cv</button>
+                        </a>
+
+                        <a href="{% url 'cv-detail'  id=request.user.cv.id %}">
+                            <button class="btn btn-info" style="border-radius: 8px;">View Cv</button>
+                        </a>
+                          
+
+                          {% else %}
+                       <a href="{% url 'createcv' %}">
+                        <button class="btn btn-primary">Create Cv</button>
+                       </a>
+
+                       {% endif %}
+                       <a href="{% url 'submit_feedback' %}">
+                        <button class="btn btn-warning" style="border-radius: 8px;">Feedback</button>
+                    </a>
+                        
+                       <br/>
+                       <br/>
+                       <br/>
+
+                    
+                   </div>
+               </div>
+           </div>
+       </div>
+     </div>
+     <br><br><br>
+     <div class="card1">
+        <img src="/static/img/card1.png" class="card-img-top" alt="..." height="210px">
+        <div class="card-body">
+          <h5 class="card-title">Pick a CV template</h5>
+          <p class="card-text">Choose a sleek design and layout to get started.</p>
+        </div>
+      </div>
+        <div class="card2">
+            <img src="/static/img/card3.jpg" class="card-img-top" alt="..." height="210px">
+            <div class="card-body">
+              <h5 class="card-title">Fill in the blanks</h5>
+              <p class="card-text">Type in a few words. Let the Curiculum Vitae fill the rest.</p>
+            </div>
+          </div>
+        <div class="card3" style="margin-top: -334px;">
+            <img src="/static/img/card2.jpg" class="card-img-top" alt="..." height="210px">
+            <div class="card-body">
+              <h5 class="card-title">Customize your documents</h5>
+              <p class="card-text">Make it truly yours. Uniqueness in a few clicks.</p>
+            </div>
+          </div>
+      </div>
+      <br><br><br>
+      <h2 style="text-align: center;">Create Your Own Cv.</h2><br>
+      
+</div>
+<br><br>
+{% include 'core/footer.html' %}

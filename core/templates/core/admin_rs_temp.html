@@ -1,0 +1,94 @@
+{% include 'core/adminnavbar.html' %}
+
+{% load static %}
+<style>
+    .btnn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btnn {
+        display: inline-block;
+        margin-top: 20px;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<div class="container mt-4">
+    <h1>{{ user_profile.fname }} {{ user_profile.mname }} {{ user_profile.lname }}</h1><br>
+    <p><strong>Occupation:</strong> {{ user_profile.occupation }}</p>
+    <p><strong>Date Of Birth:</strong> {{ user_profile.dob }}</p>
+    <p><strong>Gender:</strong> {{ user_profile.gender }}</p>
+    <p><strong>Email:</strong> {{ user_profile.email }}</p>
+    <p><strong>Phone:</strong> {{ user_profile.phone }}</p>
+    <p><strong>Location:</strong> {{ user_profile.country }}, {{ user_profile.region }}</p><br>
+    
+    <div class="section mt-3 mb-4 p-3 border border-secondary rounded">
+        <div class="section-title font-weight-bold">Biography</div><br>
+        <p>{{ user_profile.bio }}</p>
+    </div>
+
+    <div class="section mt-3 mb-4 p-3 border border-secondary rounded">
+        <div class="section-title font-weight-bold">Professional Skills</div><br>
+        <ul class="list-unstyled">
+            {% for skill in user_skill %}
+                <li>{{ skill.s_name }} ({{ skill.s_level }} level)</li>
+            {% empty %}
+                <li>No skills listed.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section mt-3 mb-4 p-3 border border-secondary rounded">
+        <div class="section-title font-weight-bold">Education Details</div><br>
+        <ul class="list-unstyled">
+            {% for educa in user_education %}
+                <li>
+                    <strong>{{ educa.a_institution }}</strong> ({{ educa.a_year }}) - CGPA: {{ educa.a_award }}
+                </li>
+            {% empty %}
+                <li>No education records found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section mt-3 mb-4 p-3 border border-secondary rounded">
+        <div class="section-title font-weight-bold">Experience Details</div><br>
+        <ul class="list-unstyled">
+            {% for exp in user_experience %}
+                <li>
+                    <strong>{{ exp.e_name }}</strong> - Role: {{ exp.e_role }} (Duration: {{ exp.e_duration }})
+                </li>
+            {% empty %}
+                <li>No experience records found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section mt-3 mb-4 p-3 border border-secondary rounded">
+        <div class="section-title font-weight-bold">Referees Details</div><br>
+        <ul class="list-unstyled">
+            {% for referee in user_referee %}
+                <li>
+                    <strong>{{ referee.re_name }}</strong> - Phone: {{ referee.re_phone }}, Email: {{ referee.re_email }}
+                </li>
+            {% empty %}
+                <li>No referees listed.</li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+    <br><br><br>
+    <a href="{% url 'view_resumes' %}">
+        <button id="download" class="btnn" style="position: fixed; bottom: 20px;width: 60px; left: 20px;border-radius: 8px; background-color:rgb(58, 60, 58);color: white;">↩</button>
+        </a>
+
+
+<!-- Include Bootstrap JS if needed -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

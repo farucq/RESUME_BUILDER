@@ -1,0 +1,15 @@
+
+{% include 'core/header.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%;">
+     <div class="container-fluid">
+       <div class="card mb-2 col-md-12">
+          
+
+          
+        </div>
+    </div>
+</div>
+<br><br><br>
+{% include 'core/footer.html' %}

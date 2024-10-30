@@ -1,0 +1,45 @@
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from .models import Profile, Skill, Referee, Experience, Academic
+
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from xhtml2pdf import pisa
+import os
+
+def generate_PDF(request, id):
+    print('Download CV Id is', id)
+
+    # Fetch data based on the ID
+    user_profile = Profile.objects.filter(cv_id=id).first()
+    user_skills = Skill.objects.filter(cv__user__id=id).values()
+    user_referees = Referee.objects.filter(cv__user__id=id).values()
+    user_experience = Experience.objects.filter(cv__user__id=id).values()
+    user_education = Academic.objects.filter(cv__user__id=id).values()
+
+    # Prepare the context with data
+    context = {
+        'user_profile': user_profile,
+        'user_skill': user_skills,
+        'user_referee': user_referees,
+        'user_experience': user_experience,
+        'user_education': user_education
+    }
+
+    # Render the HTML template as a string
+    html = render_to_string('core/pdf_template.html', context)
+
+    # Create a response object for the PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="cv.pdf"'
+
+    # Convert the HTML into PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    # Check for errors
+    if pisa_status.err:
+        return HttpResponse('We had some errors with PDF generation <pre>' + html + '</pre>')
+    
+    return response
+

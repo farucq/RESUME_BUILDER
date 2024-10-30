@@ -1,0 +1,45 @@
+
+{% include 'core/header.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-0" style="padding-top: 9%; padding-bottom: 12%; background-image: url('/static/img/bgg10.png');background-repeat: no-repeat; background-size: 1550px 685px;">
+     <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="row">
+          <div class="col-md-4">
+        </div>
+        <div class="card col-md-3" style="border-radius: 14px; background-color: rgba(255, 255, 255, 0.573); margin-left: 50px;">
+            
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div>
+                        <h2 style="text-align: center; padding-top: 3%;">Login Form</h2>
+                    </div>
+                    <br>
+                    <label>Username</label>
+                    <input class="form-control" type="text"  name="username" placeholder="Enter Username" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label>Password</label>
+                    <input class="form-control" type="password"  name="password" placeholder="Enter Password" required>
+                </div>
+                <a href="{% url 'reg-form' %}" style="color: rgb(124, 12, 12);">Don't Have account ? Sign Up here</a>
+            <div class="form-group">
+                <button class="loginbtn">Sign In</button>
+            </div>
+            
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-danger text-center">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            </form>
+        </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+        </div>
+    </div>
+    </div>
+{% include 'core/footerlogin.html' %}

@@ -1,0 +1,193 @@
+{% include 'core/navbar.html' %}
+{% load static %}
+<style>
+    body {
+        background-color: #f4f4f4;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        background-image: url('/static/img/bg1.png');
+    }
+
+    #content-wrapper {
+        padding: 20px;
+        max-width: 1000px;
+        margin: auto;
+        background-color: rgba(255, 255, 255, 0.901);
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    th {
+        background-color: #4a90e2;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%;">
+     <div class="container-fluid">
+       <div class="mb-2 col-md-14">
+           
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Role</th>
+                        <th>Duration</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <input type="hidden" value={{request.user.cv.id}} id="cv_id">
+
+                    {% if user_experience %}
+                    {% for exp in user_experience %}
+
+                    <tr>
+                        
+            
+                        <td>
+                           {{ exp.e_name }}
+                        </td>
+
+                        <td>
+                            {{ exp.e_role }}
+                         </td>
+
+                         <td>
+                            {{ exp.e_duration }}
+                         </td>
+
+                         <td>
+
+                            
+                             <input class="btn btn-warning btn-sm btn-edit-exp" data-id="{{exp.id}}" value="Edit" type="button"> 
+                        </td>
+
+                        <td>
+                            <input class="btn btn-danger btn-sm btn-delete-exp" data-id="{{exp.id}}" value="Delete" type="button"> 
+                        </td>
+                    </tr>
+
+
+                    {% endfor %}
+                    {% endif %}
+                    
+                </tbody>
+
+            </table>
+        
+       </div>
+
+       <div id="save_experience_status"></div>
+
+
+
+       <br/>
+       <br/>
+
+
+
+       <div class="update_experience_info" style="display: none;">
+       <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Role</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <input type="hidden"  id="experience_id">
+
+
+                <tr>
+        
+                    <td>
+                       <input type="text"  id="name" class="form-control"/>
+                    </td>
+
+                    <td>
+                        <input type="text"  id="role" class="form-control"/>
+                     </td>
+
+                     <td>
+                        <input type="text"  id="duration" class="form-control"/>
+                     </td>
+                </tr>
+                
+            </tbody>
+
+        </table>
+
+        <button class="btn btn-success" id="save_experience">Update</button>
+
+        <button class="btn btn-info" id="close_experience">Close</button>
+
+    
+   </div>
+</div>
+
+
+
+     </div>
+</div>
+<a href="{% url 'cv-edit' %}">
+    <button id="download" class="btn" style="position: fixed; bottom: 20px;width: 60px; left: 20px;border-radius: 8px; background-color:rgb(58, 60, 58);color: white;">↩</button>
+    </a>
+</body>
+
+{% include 'core/edit_cv_script.html' %}

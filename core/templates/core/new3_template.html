@@ -1,0 +1,313 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #fff;
+        }
+        .header img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .header p {
+            margin: 5px 0;
+        }
+        .sidebar {
+            width: 300px;
+            padding: 20px;
+            background-color: #34495e;
+            color: #fff;
+        }
+        .sidebar p {
+            margin: 5px 0;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        h2 {
+            font-size: 1.6em;
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .skill-level {
+            color: #e74c3c;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .section-title {
+            padding-bottom: 5px;
+            border-bottom: 2px solid #2980b9;
+            margin-bottom: 20px;
+        }
+        .info-card {
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+        .sl {
+    margin-bottom: 20px; /* Space below the select element */
+}
+
+#template {
+    width: 100%; /* Make the dropdown full width */
+    padding: 10px; /* Padding inside the dropdown */
+    border: 1px solid #bdc3c7; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #34495e; /* Dark text color */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+#template:hover {
+    border-color: #2980b9; /* Change border color on hover */
+}
+
+#template:focus {
+    outline: none; /* Remove default outline */
+    border-color: #2980b9; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5); /* Add a shadow on focus */
+}
+
+.option {
+    padding: 10px; /* Padding for the options */
+}
+.btn {
+    display: inline-block; /* Make the button inline */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline for links */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.btn-warning {
+    background-color: #f39c12; /* Warning color */
+    color: #fff; /* Text color */
+}
+
+.btn-warning:hover {
+    background-color: #e67e22; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-warning:active {
+    background-color: #d35400; /* Even darker shade on click */
+    transform: translateY(0); /* Reset lift effect */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="sl">
+        <select id="template" style="text-align: center;background-color: #353535;color: #dfe6e9;" name="template" onchange="changeTemplate()">
+            <option value="template1">Choose Your Template </option>
+            <option value="template1">Standard</option>
+            <option value="template2">Blue&White</option>
+            <option value="template3">Professional</option>
+            <option value="template4">NoImage</option>
+            <option value="template5">HalfGrey</option>
+            <!-- Add more templates as needed -->
+        </select>
+    </div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            {% if user_profile %}
+            <div class="header">
+                {% if user_profile.avator %}
+                    <img src="{{ user_profile.avator.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'img/avator.png' %}" alt="Profile Picture">
+                {% endif %}
+                <div>
+                    <h1>{{ user_profile.fname }} {{ user_profile.mname }} {{ user_profile.lname }}</h1><br>
+                    <i><p>{{ user_profile.occupation }}</p>
+                    <p>📅{{ user_profile.dob}}</p>
+                    <p>{{ user_profile.gender}}</p>
+                    <p>{{ user_profile.country }}, {{ user_profile.region }}</p>
+                    <p>{{ user_profile.email }}</p>
+                    <p>{{ user_profile.phone }}</p></i>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Biography Section -->
+            {% if user_profile %}
+            
+            <div class="section">
+                <h2 class="section-title">Biography</h2>
+                <p>{{ user_profile.bio }}</p>
+            </div>
+            
+            {% endif %}
+
+            <!-- Skills Section -->
+            <div class="section">
+                <h2 class="section-title">Professional Skills</h2>
+                <div class="two-column">
+                    {% if user_skill %}
+                    {% for skill in user_skill %}
+                    <div class="info-card">
+                        <p><b>Skill Name:</b> {{ skill.s_name }}</p>
+                        <p><b>Skill Level:</b> <span class="skill-level">{{ skill.s_level }}</span></p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Education Section -->
+            <div class="section">
+                <h2 class="section-title">Education</h2>
+                <div class="two-column">
+                    {% if user_education %}
+                    {% for educa in user_education %}
+                    <div class="info-card">
+                        <p><b>Institution:</b> {{ educa.a_institution }}</p>
+                        <p><b>Year:</b> {{ educa.a_year }}</p>
+                        <p><b>CGPA:</b> {{ educa.a_award }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="section">
+                <h2 class="section-title">Experience</h2>
+                <div class="two-column">
+                    {% if user_experience %}
+                    {% for exp in user_experience %}
+                    <div class="info-card">
+                        <p><b>Company:</b> {{ exp.e_name }}</p>
+                        <p><b>Role:</b> {{ exp.e_role }}</p>
+                        <p><b>Duration:</b> {{ exp.e_duration }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Referees Section -->
+            <div class="section">
+                <h2 class="section-title">Referees</h2>
+                <div class="two-column">
+                    {% if user_referee %}
+                    {% for referee in user_referee %}
+                    <div class="info-card">
+                        <p><b>Name:</b> {{ referee.re_name }}</p>
+                        <p><b>Phone:</b> {{ referee.re_phone }}</p>
+                        <p><b>Email:</b> {{ referee.re_email }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'dashboard' %}">
+        <button id="backButton" class="btn" style="position: fixed; bottom: 20px; left: 20px; border-radius: 8px; background-color: rgb(74, 160, 21); color: white;">↩</button>
+    </a>
+    <button id="downloadButton" class="btn btn-warning" style="position: fixed; bottom: 20px; right: 20px; border-radius: 8px;">Download PDF</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Change template function
+            function changeTemplate() {
+                const selectedTemplate = document.getElementById('template').value;
+                const cvId = "{{ user_profile.cv.id }}";
+
+                if (!cvId) {
+                    alert("CV ID not found. Please select a valid profile.");
+                    return;
+                }
+
+                window.location.href = `{% url 'template_switcher' %}?template=${selectedTemplate}&id=${cvId}`;
+            }
+
+            // Attach changeTemplate to the select dropdown
+            document.getElementById('template').addEventListener('change', changeTemplate);
+
+            // PDF download button functionality
+            document.getElementById('downloadButton').addEventListener('click', async () => {
+                if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+                    alert('Required libraries are not loaded.');
+                    return;
+                }
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const container = document.querySelector(".container");
+
+                try {
+                    const canvas = await html2canvas(container, { scale: 2 });
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = pdf.internal.pageSize.getWidth() - 20;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                    pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                    pdf.save('resume.pdf');
+                } catch (error) {
+                    console.error("Error generating PDF:", error);
+                    alert("An error occurred while generating the PDF.");
+                }
+            });
+        });
+    </script>
+    </body>
+    </html>

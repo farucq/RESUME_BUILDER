@@ -1,0 +1,98 @@
+<!-- submit_feedback.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Feedback</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    form {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        width: 95%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /* Add some responsive design */
+    @media (max-width: 600px) {
+        form {
+            width: 90%;
+            padding: 15px;
+        }
+
+        button {
+            font-size: 14px;
+        }
+    }
+</style>
+<body style="background-image: url('/static/img/bg1.png');">
+    <h1>Submit Feedback</h1>
+    <form method="POST" style="background-color:rgba(255, 255, 255, 0.901);">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <a href="{% url 'feedback_success' %}">
+            <button id="bt" class="btn btn-success" style="border-radius: 8px;">Submit</button>
+        </a>
+        <script>
+            document.getElementById("bt").onclick = function(){alert("Thank you for your feedback!");}
+        </script>
+    </form>
+</body>
+<a href="{% url 'dashboard' %}">
+    <button id="download" class="btn" style="position: fixed; bottom: 20px;width: 60px; left: 20px;border-radius: 8px; background-color:rgb(60, 58, 58);color: white;">↩</button>
+    </a>
+</html>

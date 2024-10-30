@@ -1,0 +1,345 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #2980b9;
+        }
+        h1 {
+            color: brown;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 20px;
+            background-color: antiquewhite;
+        }
+        .section-title {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #2980b9;
+            font-size: 1.5em;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .profile-info img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-right: 30px;
+        }
+        .contact-info p {
+            margin: 5px 0;
+            font-weight: 500;
+        }
+        .skills, .education, .experience, .referees {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .skill-level {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section div {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .section div:hover {
+            background: #dfe6e9;
+        }
+        .section-title + .section div {
+            border-left: 4px solid #2980b9;
+            padding-left: 10px;
+        }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .skills, .education, .experience, .referees {
+                grid-template-columns: 1fr;
+            }
+        }
+        .bb {
+            background-image: url('/static/img/r1.jpg');
+        }
+    
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0%; /* Adjust margins as needed */
+            }
+            body {
+                background: none; /* Remove background color for printing */
+                color: black; /* Ensure text is black for print */
+                overflow: visible;
+            }
+            .container {
+                max-width: 100%; /* Full width for print */
+                margin: 0; /* Remove margin for print */
+                box-shadow: none; /* Remove shadow for print */
+            }
+            h1, h2 {
+                page-break-after: avoid; /* Prevent page break after headings */
+            }
+            .section {
+                page-break-inside: avoid; /* Prevent page break inside sections */
+            }
+            img {
+                display: none; /* Hide images for print, if needed */
+            }
+        }
+        .sl {
+    margin-bottom: 20px; /* Space below the select element */
+}
+
+#template {
+    width: 100%; /* Make the dropdown full width */
+    padding: 10px; /* Padding inside the dropdown */
+    border: 1px solid #bdc3c7; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    color: #34495e; /* Dark text color */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+#template:hover {
+    border-color: #2980b9; /* Change border color on hover */
+}
+
+#template:focus {
+    outline: none; /* Remove default outline */
+    border-color: #2980b9; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5); /* Add a shadow on focus */
+}
+
+.option {
+    padding: 10px; /* Padding for the options */
+}
+.btn {
+    display: inline-block; /* Make the button inline */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer on hover */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline for links */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.btn-warning {
+    background-color: #f39c12; /* Warning color */
+    color: #fff; /* Text color */
+}
+
+.btn-warning:hover {
+    background-color: #e67e22; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-warning:active {
+    background-color: #d35400; /* Even darker shade on click */
+    transform: translateY(0); /* Reset lift effect */
+}
+
+    </style>
+    
+</head>
+<body>
+    <div class="sl">
+        <select id="template" style="text-align: center;background-color: #353535;color: #dfe6e9;" name="template" onchange="changeTemplate()">            <option value="template1">Choose Your Template </option>
+            <option value="template1">Standard</option>
+            <option value="template2">Blue&White</option>
+            <option value="template3">Professional</option>
+            <option value="template4">NoImage</option>
+            <option value="template5">HalfGrey</option>
+            <!-- Add more templates as needed -->
+        </select>
+    </div>
+    
+
+    <div class="container">
+        <div class="bb">
+        {% if user_profile %}
+        
+        {% if user_profile.avator %}
+        <img src="{{ user_profile.avator.url }}" style="width: 15%; height: 15%; margin: 15px; border-radius: 10px;" alt="no image">
+        {% else %}
+        <img src="{% static 'img/avator.png' %}" style="width: 15%; height: 15%; margin: 15px; border-radius: 10px;" alt="no image">
+        {% endif %}
+        </div>
+        <h1>{{ user_profile.fname}} {{ user_profile.mname}} {{ user_profile.lname}}</h1>
+        <p style="font-size: 25px;margin-bottom: -12px;">{{ user_profile.occupation}}</p>
+        <p style="margin-bottom: -12px;">DOB-{{ user_profile.dob}}</p>
+        <p>Gender-{{ user_profile.gender}}</p>
+        
+        <div class="contact-info">
+            <p>{{ user_profile.country}} {{user_profile.region}}</p>
+            <p>{{user_profile.phone}}</p>
+            <p>{{ user_profile.email}}</p>
+        </div>
+        <div class="section">
+            <h2>Biography</h2>
+            <p>{{ user_profile.bio }}</p>
+        </div>
+        
+        {% endif %}
+        
+        <h2>Professional Skill</h2>
+        <div class="section">
+            {% if user_skill %}
+            {% for skill in user_skill %}
+            <div>
+                <span>
+                    <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}</span>
+                    <span><b>Skill name:</b> {{ skill.s_name }} , <b>Skill Level :</b>{{ skill.s_level }} level</span>
+                </span>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    
+        <h2>Education Details</h2>
+        <div class="section">
+            {% if user_education %}
+            {% for educa in user_education %}
+            <div>
+                <span>
+                    <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}.</span>
+                    <span><b style="font-size: 20px; font-weight: 700;">{{ educa.a_institution }}</b></span><br>
+                    <span><b style="font-weight: 600;">Year - </b>{{ educa.a_year }}</span><br>
+                    <span><b style="font-weight: 600;">CGPA - </b>{{ educa.a_award }}</span>
+                    <br><br>
+                </span>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    
+        <h2>Experience Details</h2>
+        <div class="section">
+            {% if user_experience %}
+            {% for exp in user_experience %}
+            <div>
+                <span>
+                    <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}.</span>
+                    <span><b style="font-size: 20px; font-weight: 700;">{{ exp.e_name }}</b></span><br>
+                    <span><b style="font-weight: 600;">Role :</b> {{ exp.e_role }}</span><br>
+                    <span><b style="font-weight: 600;">Duration :</b> {{ exp.e_duration }}</span>
+                    <br><br>
+                </span>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    
+        <h2>Referees Details</h2>
+        <div class="section">
+            {% if user_referee %}
+            {% for referee in user_referee %}
+            <div>
+                <span>
+                    <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}.</span>
+                    <span><b style="font-size: 20px; font-weight: 700;">{{ referee.re_name }}</b></span><br>
+                    <span><b style="font-weight: 600;">Phone number : </b>{{ referee.re_phone }}</span><br>
+                    <span><b style="font-weight: 600;">Email : </b>{{ referee.re_email }}</span>
+                    <br><br>
+                </span>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        
+        
+    
+    </div>
+    <a href="{% url 'dashboard' %}">
+        <button id="backButton" class="btn" style="position: fixed; bottom: 20px; left: 20px; border-radius: 8px; background-color: rgb(74, 160, 21); color: white;">↩</button>
+    </a>
+    <button id="downloadButton" class="btn btn-warning" style="position: fixed; bottom: 20px; right: 20px; border-radius: 8px;">Download PDF</button>
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    function changeTemplate() {
+        const selectedTemplate = document.getElementById('template').value;
+        const cvId = "{{ user_profile.cv.id }}";
+
+        if (!cvId) {
+            alert("CV ID not found. Please select a valid profile.");
+            return;
+        }
+
+        window.location.href = `{% url 'template_switcher' %}?template=${selectedTemplate}&id=${cvId}`;
+    }
+
+    document.getElementById('template').addEventListener('change', changeTemplate);
+
+    document.getElementById('downloadButton').addEventListener('click', async () => {
+        if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+            alert('Required libraries are not loaded.');
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const container = document.querySelector(".container");
+
+        try {
+            const canvas = await html2canvas(container, { scale: 2 });
+            const imgWidth = pdf.internal.pageSize.getWidth() - 20;
+            const pageHeight = pdf.internal.pageSize.getHeight() - 20;
+            let imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            // Scale down if the content height exceeds the PDF page height
+            if (imgHeight > pageHeight) {
+                const scaleRatio = pageHeight / imgHeight;
+                imgHeight *= scaleRatio; // Adjust height based on the scale ratio
+            }
+
+            const imgData = canvas.toDataURL('image/png');
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+            pdf.save('resume.pdf');
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            alert("An error occurred while generating the PDF.");
+        }
+    });
+});
+
+    </script>
+    </body>
+    </html>

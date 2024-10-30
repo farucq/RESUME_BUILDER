@@ -1,0 +1,215 @@
+{% include 'core/navbar.html' %}
+{% load static %}
+<style>
+    body {
+        background-color: #f4f4f4;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    #content-wrapper {
+        padding: 20px;
+        max-width: 1000px;
+        margin: auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    th {
+        background-color: #4a90e2;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #4a90e2;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #357ab8;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .form-section {
+        display: none; /* Hide form section initially */
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #4a90e2;
+        outline: none;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
+<body style="background-image: url('/static/img/bg1.png');">
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%; background-color:rgba(255, 255, 255, 0.901); ">
+     <div class="container-fluid">
+       <div class="mb-2 col-md-14">
+           
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <input type="hidden" value={{request.user.cv.id}} id="cv_id">
+
+                    {% if user_skill %}
+                    {% for skil in user_skill %}
+
+                    <tr>
+                        
+            
+                        <td>
+                           {{ skil.s_name }}
+                        </td>
+
+                        <td>
+                            {{ skil.s_level }}
+                         </td>
+
+                         <td>
+
+                            
+                             <input class="btn btn-warning btn-sm btn-edit-skill" data-id="{{skil.id}}" value="Edit" type="button"> 
+                        </td>
+
+                        <td>
+                            <input class="btn btn-danger btn-sm btn-delete-skill" data-id="{{skil.id}}" value="Delete" type="button"> 
+                        </td>
+                    </tr>
+
+
+                    {% endfor %}
+                    {% endif %}
+                    
+                </tbody>
+
+            </table>
+        
+       </div>
+
+       <div id="save_skill_status"></div>
+
+
+
+       <br/>
+       <br/>
+
+
+
+       <div class="update_skill_info" style="display: none;">
+       <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <input type="hidden"  id="skill_id">
+
+
+                <tr>
+        
+                    <td>
+                       <input type="text"  id="name" class="form-control"/>
+                    </td>
+
+                    <td>
+                        <input type="text"  id="level" class="form-control"/>
+                     </td>
+
+                </tr>
+                
+            </tbody>
+
+        </table>
+
+        <button class="btn btn-success" id="save_skill">Update</button>
+
+        <button class="btn btn-info" id="close_skill">Close</button>
+
+    
+   </div>
+</div>
+
+
+
+     </div>
+</div>
+<a href="{% url 'cv-edit' %}">
+    <button id="download" class="btn" style="position: fixed; bottom: 20px;width: 60px; left: 20px;border-radius: 8px; background-color:rgb(58, 60, 58);color: white;">↩</button>
+    </a>
+</body>
+
+{% include 'core/edit_cv_script.html' %}

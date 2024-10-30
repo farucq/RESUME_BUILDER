@@ -1,0 +1,160 @@
+<!-- view_resumes.html -->
+{% include "core/adminnavbar.html" %}
+{% load static %}
+<style>
+    /* Container Styling */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+/* Heading */
+h2.text-center {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: #2ecc71;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.table th, .table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 15px;
+}
+
+.table th {
+    font-weight: 600;
+}
+
+.table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #eafaf1;
+    cursor: pointer;
+}
+
+/* Alternating Row Colors */
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Empty Message Styling */
+.table tbody .text-center {
+    font-style: italic;
+    color: #888;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #3498db;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .table, .table thead, .table tbody, .table th, .table td, .table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .table th, .table td {
+        text-align: right;
+        padding: 12px;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+.btnn {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btnn {
+        display: inline-block;
+        margin-top: 20px;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">View All Resumes</h2>
+    <table class="table table-bordered mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="{% url 'resume_detail' user.id %}" class="btn btn-primary">View Resume</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No resumes found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'addash' %}">
+    <button id="download" class="btnn" style="position: fixed; bottom: 20px;width: 60px; left: 20px;border-radius: 8px; background-color:rgb(58, 60, 58);color: white;">↩</button>
+    </a>
+{% endblock %}
+

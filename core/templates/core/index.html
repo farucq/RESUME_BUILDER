@@ -1,0 +1,87 @@
+
+{% include 'core/header.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%;">
+     <div class="container-fluid">
+       <div class="card mb-2 col-md-12" style="border-width: 2px;border-color: rgb(116, 114, 114);border-radius: 10px;background-image: url('/static/img/bgg1.jpg'); background-size: 865px 543px;background-repeat: no-repeat;background-position: right;">
+           <div class="card-body">
+               <div class="row">
+                   <div class="col-md-4">
+                       <img src="{% static 'img/img1.jpg' %}" style="padding-left: 10%; width: 400px;">
+                   </div>
+                   <div class="col-md-7" style="padding-left: 3%;">
+
+                       <h1 class="textprimary1">Resume Builder,</h1>
+                       <h2 class="textprimary2"> The Best CV Maker Online.</h2>
+                       <br>
+                       <p class="welcome_text" >If a sheet of papper represents your entire<br>
+                       work life, personality, and skills, it better be<br>
+                      a pretty amazing piece of papper --<br>
+                      Let Resume Builder do the heavy lifting.</p>
+                       <br>
+                       <a href="{% url 'reg-form' %}"><button class="startBtn">Create Your Cv Now</button></a>
+                       <br/>
+                       <br/>
+                       <br/>
+
+                    
+                   </div>
+               </div>
+           </div>
+       </div>
+     </div>
+     <br><br><br>
+     <div class="card1">
+        <img src="/static/img/card1.png" class="card-img-top" alt="..." height="210px">
+        <div class="card-body">
+          <h5 class="card-title">Pick a CV template</h5>
+          <p class="card-text">Choose a sleek design and layout to get started.</p>
+        </div>
+      </div>
+        <div class="card2">
+            <img src="/static/img/card3.jpg" class="card-img-top" alt="..." height="210px">
+            <div class="card-body">
+              <h5 class="card-title">Fill in the blanks</h5>
+              <p class="card-text">Type in a few words. Let the Resume Builder fill the rest.</p>
+            </div>
+          </div>
+        <div class="card3" style="margin-top: -334px;">
+            <img src="/static/img/card2.jpg" class="card-img-top" alt="..." height="210px">
+            <div class="card-body">
+              <h5 class="card-title">Customize your documents</h5>
+              <p class="card-text">Make it truly yours. Uniqueness in a few clicks.</p>
+            </div>
+          </div>
+      </div>
+      <br><br><br><br>
+      <h2 style="text-align: center;">Change Yours CV. Change your life</h2><br>
+      <div id="content-wrapper" class="mt-4" style="padding-top: 1%;">
+        <div class="container-fluid">
+          
+              <div class="card-body" style="background-image: url(/static/img/bgg2.jpg);background-size: 540px 363px;background-position: 850px;background-repeat: no-repeat;">
+                  <div class="row">
+                      <div class="col-md-7">
+                        <p class="welcome_text" style="margin-left: 100px;">Resume Builder CV builder. Is a online website. More like a<br>
+                        personal career expert.<br><br>
+                        Your CV is underwhelming and you deserve<br>
+                        better. Get that fresh look with our CV<br>
+                      templates. Click on ready-to-use- expert<br>
+                    suggestions to build your CV in minutes. Blow<br>
+                  away recuiters with sleek designs. Let<br>
+                employee see your true self--the best candidate<br>
+              for the job.</p>
+                        <br>
+                        <a href="{% url 'reg-form' %}"><button class="startBtn" style="margin-left: 100px;" >Create Your Cv Now</button></a>
+                        <br/>
+                        <br/>
+                        <br/>
+                      </div>
+              </div>
+        </div>
+        </div>
+
+
+</div>
+<br><br><br>
+{% include 'core/footer.html' %}

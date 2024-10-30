@@ -1,0 +1,54 @@
+
+{% include 'core/header.html' %}
+{% load static %}
+
+
+<body>
+<div id="content-wrapper" class="mt-0" style="padding-top: 9%; background-image: url('/static/img/bgg10.png');background-repeat: no-repeat; background-size: 1550px 685px;">
+     <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="row">
+          <div class="col-md-4">
+        </div>
+        <div class="card col-md-3" style="border-radius: 14px; background-color: rgba(255, 255, 255, 0.573); margin-left: 50px;">
+            
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div>
+                        <h2 style="text-align: center; padding-top: 3%;">Registration Form</h2>
+                    </div>
+                    <br>
+                    <label>Username</label>
+                    <input class="form-control" type="text"  name="username" placeholder="Enter Username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" type="email"  name="email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label>Password</label>
+                    <input class="form-control" type="password"  name="password" placeholder="Enter Password" required>
+                </div>
+                <a href="{% url 'login' %}" style="color: rgb(124, 12, 12);">Have account ? Sign In here</a>
+            <div class="form-group">
+                <button class="loginbtn">Sign Up</button>
+            </div>
+            
+            {% if messages %}
+            {% for message in messages %}
+            <p class="text-dangerr text-center" style="color: rgb(2, 91, 9);">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            </form>
+        </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+        </div>
+    </div>
+    <br><br><br><br>
+    </div>
+</div>
+</body>
+{% include 'core/footerlogin.html' %}
